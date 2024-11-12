@@ -18,7 +18,7 @@ class TelegramBot:
     async def start(self):
         await self.client.start(self.phone_number)
 
-    async def parse_all_members(self):
+    async def parse_all_members(self): #парсинг подписчиков
         async with self.client:
             id_ = None
             async for chat in self.client.iter_dialogs():
@@ -34,7 +34,7 @@ class TelegramBot:
                 print("Чат не найден")
                 return []
 
-    async def get_replies(self, hours, subscribers):
+    async def get_replies(self, hours, subscribers): #функция получения комментариев с поста с указанием количества часов
         async with self.client:
             id_ = None
             async for chat in self.client.iter_dialogs():
@@ -58,7 +58,7 @@ class TelegramBot:
             except Exception:
                 logger.error(f'Постов {hours} часов назад не было.')
 
-    async def parse_commenters(self):
+    async def parse_commenters(self): # функция для парсинга комментариев со всех постов. как раз о чем я говорил в readme, очень долго отрабатывает
         async with self.client:
             id_ = None
             async for chat in self.client.iter_dialogs():
@@ -80,7 +80,7 @@ class TelegramBot:
                                 user = await self.client.get_entity(comment.sender_id)
                                 print(f"Пользователь: {user.username or user.first_name}, ID: {user.id}")
 
-    async def send_message_to_users(self, user_ids, message):
+    async def send_message_to_users(self, user_ids, message): #спам по юзерам
         async with self.client:
             for user_id in user_ids:
                 try:
@@ -88,7 +88,7 @@ class TelegramBot:
                 except Exception as e:
                     print(f'Failed to send message to {user_id}: {e}')
 
-    async def add_users_to_chat(self, user_ids):
+    async def add_users_to_chat(self, user_ids): #добавление юзеров в чат
         async with self.client:
             id_ = None
             async for chat in self.client.iter_dialogs():
@@ -134,3 +134,6 @@ if __name__ == "__main__":
     # bot.client.loop.run_until_complete(bot.send_message_to_users([123456789, 987654321], "Hello from the bot!"))
 
     # bot.client.loop.run_until_complete(bot.add_users_to_chat([1932210797]))
+
+
+
